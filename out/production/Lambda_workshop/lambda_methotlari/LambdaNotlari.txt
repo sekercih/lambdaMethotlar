@@ -1,0 +1,78 @@
+Lambda Methotları=====>>>>>
+Lambda işlemlerinde 4 fonksiyonel arayüz vardır.
+1).Consumer ara yüz nedir?
+Void tipinde (yazdıran)bir arayüzdür accept methoduyla çalışır,bir interfacedir.
+Hangi methotlar vardır==>forEach ve peek methotları vardır.
+a).forEach() terminal işlemidir,ve yazdırır
+b).peek() yazdima methodudur ancak terminal değildir.terminal olmadan hiçbir işlem yapmaz
+bu methodu ,debug bulmak için kullanılır,stream i çok yavaşlattığı için çok klullanılmaz.
+
+2).Supplier<T> arayüzü,tek parametre alır,parametre almayan fonksiyonel arayüzdür. get() methoduyla çalışır,
+
+a). reduce() methodu : indirgeme demektir, bir streamin bir türe veya bir primative dönüştürmesini sağlayan terminal işlemidir.
+List<Integer> list={5,6,4,1,3,11};
+örnek)==> list.stream.reduce(0,(x,y)->x>y?x:y) =>> elemanların en büğünü bulma yöntemi
+          list.stream.reduce(0,(x,y)->x+y)  =>> elemanları birbiriyle toplama yöntemi.
+          list.stream.reduce(1,(x,y)->x*y)  =>> elemanları birbiriyle çarpma yöntemi.
+toplama işlemlerinde "0" çarpma işlemlerinde "1" alınır,
+b).collect() methodu :terminal methodudur bu methot içerisinde hazır olan methotlar vardır,verilen değerleri yeni bir collectiona çevirmeye yarar.
+örnek==>
+Stream<String> s = Stream.of("Rasit", "for", "Aziz");
+          // Using toCollection() method
+        // to create a collection
+        Collection<String> names = s
+                                       .collect(Collectors
+                                                    .toCollection(TreeSet::new));
+
+              System.out.println(names); //bu methotla bir stream objesi oluşturarak içindeki elemanları Collectors.toCollection() methoduyla TreeSet e çevirdik.
+Collectors.toList() methoduyla liste çevrilir.
+
+NOT!!
+forEach(),reduce(),collect(),max(),min(),count(), bunlar terminal işlemleridir.
+
+filter(),map(),sorted(),distinct(),limit(),findfirst(),skip(),flatMap() bunlar da yaygın olarak kullanılan ara işlemlerdir.
+
+3). Predicate bir şartın değerlendirilmesini sağlayan fonksiyonel arayüzdür.Şarta göre boolean değer döndürür.Çalıştırmak için test() methodu kullanılır.
+a). filter() bir ara işlemdir ,elemanları filtrelemeye yara,belli şartlara göre eleman seçmemize yarar.
+
+4).Function<T,R> Ttipinde parametre alan R tipinde sonuç döndüren arayüzdür.Çalıştırmak için apply() methodu vardır.
+a).map() methodu :Bir collection update etmeye yarar,stream de verilen methoda göre değiştiren ara işlem methodudur.
+
+Methotlar
+1)Terminal Methotları
+a).max() maximum değeri döndüren bir terminal işlemidir.
+Person minByAge = people
+      .stream()
+      .max(Comparator.comparing(Person::getAge))
+      .orElseThrow(NoSuchElementException::new);
+b).min() minimum değeri döndüren bir terminal işlemidir.
+Person minByAge = people
+      .stream()
+      .min(Comparator.comparing(Person::getAge))
+      .orElseThrow(NoSuchElementException::new);
+c). count() saymak için kullanılır,bir sream de kaç elemanda var olduğunu saymak için.
+
+2) Ara işlem methotlar
+
+a). sorted() Sıramala yapmaya yarar.
+  	1. sorted(Comporator.comparing)  ->> Sıralamayı istediğimize göre yapar.
+  	2. sorted(Comporator.naturel)    ->> Küçükte büyüğe sısralar aynı zamanda sadece sorted() şeklinde de doğal olarak sıralar.
+  	3. sorted(Comporator.reverseOrder)->> Sıralamayı tersten yazar.
+b). findfirst() Koşulu sağlayan ilk elemanı bulur.
+c). distinct()  Tekrarlı elemanları 1 kere yazdırır.
+d). limit()     Sınırlama koyar.
+e). skip()     Bir Collectinda elemanları atlamaya yarar.
+d). flatMap() Birden fazla diziyi birleştirip tek bir dizi haline getirir.Nested yapıları tek bir yapıya dönüştürür.
+e). pow()
+
+ f).noneMatch() Hepsinde yok mu? methodu, Örneğin; "A" ile başlayan item yok mu?,yoksa true,1 tane bile varsa false.
+ g).allMatch() Tüm elemanlarda var mı? methodu? Hepsinde varsa  true,bir tane bile yoksa false.
+ h).anyMatch() Örneğin ,herhangi bir eleman belirtilen bir harfle bitiyor mu? bir tane bile varsa true döner.
+
+ Dikkat!!! range methotlarında IntStream,LongStream ve DoubleStream'de kullanılır
+ i).range() aralık methodu,örneğin ,range(1,değer) 1 den başlayıp değere kadar git demektir.1 dahildir değer dahil değildir.
+ j).rangeClosed() bu methotta ise rangeClosed(1,değer) 1 de dahildir ,değerde dahildir.
+ IntStream.range(1,değer).sum() --->1 den değere kaar olan sayıları topla demektir.
+ k).iterate(1,x->x+1).limit(6) ---> bu methotta iterate() methodu 1 den başlayıp 1 artırarak limit() methoduyla belirtilen 6 ya kadar devam eder.
+ l).removeIf() belirtilen condiation tutan elemanları siler.
+ m).orElse() if stamentdeki else nin işini yapar.
